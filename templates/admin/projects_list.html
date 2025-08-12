@@ -1,0 +1,284 @@
+{% extends "base.html" %}
+
+{% block title %}Gerenciar Projetos - Admin{% endblock %}
+
+{% block content %}
+<section class="admin-section py-5">
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="display-6 fw-bold mb-0">
+                    <i class="fas fa-folder-open me-3 text-primary"></i>Gerenciar Projetos
+                </h1>
+                <p class="text-light-gray">Visualize, edite e organize seus projetos</p>
+            </div>
+            <div>
+                <a href="{{ url_for('admin.new_project') }}" class="btn btn-primary">
+                    <i class="fas fa-plus me-2"></i>Novo Projeto
+                </a>
+                <a href="{{ url_for('admin.dashboard') }}" class="btn btn-outline-primary ms-2">
+                    <i class="fas fa-tachometer-alt me-2"></i>Dashboard
+                </a>
+            </div>
+        </div>
+
+        <!-- Filters and Search -->
+        <div class="row mb-4">
+            <div class="col-lg-6">
+                <form method="GET" class="d-flex">
+                    <input type="text" name="search" class="form-control me-2" 
+                           placeholder="Buscar projetos..." value="{{ request.args.get('search', '') }}">
+                    <button type="submit" class="btn btn-outline-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            <div class="col-lg-6 d-flex justify-content-end align-items-center">
+                <div class="btn-group" role="group">
+                    <button type="button" class="btn btn-outline-secondary btn-sm" id="gridView">
+                        <i class="fas fa-th"></i>
+                    </button>
+                    <button type="button" class="btn btn-outline-secondary btn-sm active" id="listView">
+                        <i class="fas fa-list"></i>
+                    </button>
+                </div>
+            </div>
+        </div>
+
+        <!-- Projects List -->
+        {% if projects.items %}
+        <div class="projects-container" id="projectsContainer">
+            {% for project in projects.items %}
+            <div class="project-item card mb-3 border-0 shadow-sm">
+                <div class="card-body">
+                    <div class="row align-items-center">
+                        <div class="col-lg-2 col-md-3">
+                            {% if project.image_url %}
+                            <img src="{{ url_for('main.uploaded_file', filename=project.image_url) }}" 
+                                 class="img-fluid rounded" alt="{{ project.title }}">
+                            {% else %}
+                            <div class="placeholder-image d-flex align-items-center justify-content-center rounded bg-light">
+                                <i class="fas fa-image fa-2x text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <div class="col-lg-6 col-md-5">
+                            <h5 class="fw-bold mb-2">{{ project.title }}</h5>
+                            <p class="text-light-gray mb-2">{{ project.description|truncate(120) }}</p>
+                            
+                            <div class="project-meta">
+                                {% if project.category %}
+                                <span class="badge bg-primary me-2">{{ project.category.name }}</span>
+                                {% endif %}
+                                
+                                {% for tag in project.tags[:3] %}
+                                <span class="badge bg-secondary me-1"># {{ tag.name }}</span>
+                                {% endfor %}
+                                
+                                {% if project.tags|length > 3 %}
+                                <span class="badge bg-secondary">+{{ project.tags|length - 3 }}</span>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-2 col-md-2">
+                            <div class="project-stats">
+                                <div class="stat-item mb-2">
+                                    <i class="fas fa-heart text-danger me-1"></i>
+                                    <span>{{ project.likes_count }}</span>
+                                </div>
+                                <div class="stat-item mb-2">
+                                    <i class="fas fa-comment text-info me-1"></i>
+                                    <span>{{ project.comments_count }}</span>
+                                </div>
+                                <div class="stat-item">
+                                    <small class="text-muted">{{ project.created_at|format_date }}</small>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <div class="col-lg-2 col-md-2">
+                            <div class="project-status mb-2">
+                                {% if project.is_published %}
+                                <span class="badge bg-success">
+                                    <i class="fas fa-eye me-1"></i>Publicado
+                                </span>
+                                {% else %}
+                                <span class="badge bg-secondary">
+                                    <i class="fas fa-eye-slash me-1"></i>Rascunho
+                                </span>
+                                {% endif %}
+                                
+                                {% if project.is_featured %}
+                                <span class="badge bg-warning text-dark">
+                                    <i class="fas fa-star me-1"></i>Destaque
+                                </span>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="project-actions">
+                                <a href="{{ url_for('main.project_detail', id=project.id) }}" 
+                                   class="btn btn-outline-primary btn-sm me-1" title="Ver projeto">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                <a href="{{ url_for('admin.edit_project', id=project.id) }}" 
+                                   class="btn btn-outline-secondary btn-sm me-1" title="Editar">
+                                    <i class="fas fa-edit"></i>
+                                </a>
+                                <button type="button" class="btn btn-outline-danger btn-sm" 
+                                        onclick="confirmDelete({{ project.id }}, '{{ project.title }}')" title="Excluir">
+                                    <i class="fas fa-trash"></i>
+                                </button>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if projects.pages > 1 %}
+        <nav aria-label="Paginação de projetos" class="mt-4">
+            <ul class="pagination justify-content-center">
+                {% if projects.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.projects_list', page=projects.prev_num) }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for page_num in projects.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num != projects.page %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('admin.projects_list', page=page_num) }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if projects.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('admin.projects_list', page=projects.next_num) }}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <div class="empty-state text-center py-5">
+            <i class="fas fa-folder-open fa-4x text-muted mb-4"></i>
+            <h3 class="text-muted mb-3">Nenhum projeto encontrado</h3>
+            <p class="text-light-gray mb-4">
+                {% if request.args.get('search') %}
+                Não encontramos projetos com o termo "{{ request.args.get('search') }}".
+                {% else %}
+                Comece criando seu primeiro projeto para o portfólio.
+                {% endif %}
+            </p>
+            <a href="{{ url_for('admin.new_project') }}" class="btn btn-primary btn-lg">
+                <i class="fas fa-plus me-2"></i>Criar Primeiro Projeto
+            </a>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Delete Confirmation Modal -->
+<div class="modal fade" id="deleteModal" tabindex="-1">
+    <div class="modal-dialog">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-exclamation-triangle text-warning me-2"></i>Confirmar Exclusão
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            <div class="modal-body">
+                <p>Tem certeza de que deseja excluir o projeto <strong id="deleteProjectName"></strong>?</p>
+                <p class="text-danger small">
+                    <i class="fas fa-exclamation-circle me-1"></i>
+                    Esta ação não pode ser desfeita e removerá todos os comentários e curtidas associados.
+                </p>
+            </div>
+            <div class="modal-footer">
+                <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                    <i class="fas fa-times me-2"></i>Cancelar
+                </button>
+                <form id="deleteForm" method="POST" class="d-inline">
+                    <button type="submit" class="btn btn-danger">
+                        <i class="fas fa-trash me-2"></i>Excluir Projeto
+                    </button>
+                </form>
+            </div>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // View toggle functionality
+    const gridView = document.getElementById('gridView');
+    const listView = document.getElementById('listView');
+    const container = document.getElementById('projectsContainer');
+    
+    if (gridView && listView && container) {
+        gridView.addEventListener('click', function() {
+            container.classList.add('grid-view');
+            this.classList.add('active');
+            listView.classList.remove('active');
+        });
+        
+        listView.addEventListener('click', function() {
+            container.classList.remove('grid-view');
+            this.classList.add('active');
+            gridView.classList.remove('active');
+        });
+    }
+    
+    // Animate project items on load
+    const projectItems = document.querySelectorAll('.project-item');
+    projectItems.forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            item.style.transition = 'all 0.6s ease';
+            item.style.opacity = '1';
+            item.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+});
+
+// Delete confirmation
+function confirmDelete(projectId, projectName) {
+    const modal = new bootstrap.Modal(document.getElementById('deleteModal'));
+    const form = document.getElementById('deleteForm');
+    const nameElement = document.getElementById('deleteProjectName');
+    
+    nameElement.textContent = projectName;
+    form.action = `/admin/projects/${projectId}/delete`;
+    
+    modal.show();
+}
+</script>
+{% endblock %}

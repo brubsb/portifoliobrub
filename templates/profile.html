@@ -1,0 +1,309 @@
+{% extends "base.html" %}
+
+{% block title %}Meu Perfil - Portfólio Digital{% endblock %}
+
+{% block content %}
+<section class="profile-section py-5">
+    <div class="container">
+        <div class="row">
+            <!-- Profile Sidebar -->
+            <div class="col-lg-4">
+                <div class="profile-card card border-0 shadow-sm sticky-top">
+                    <div class="card-body text-center">
+                        <div class="profile-avatar mb-3">
+                            {% if current_user.profile_image %}
+                            <img src="{{ url_for('main.uploaded_file', filename=current_user.profile_image) }}" 
+                                 class="rounded-circle" width="120" height="120" alt="{{ current_user.name }}">
+                            {% else %}
+                            <div class="avatar-placeholder">
+                                <i class="fas fa-user-circle fa-5x text-muted"></i>
+                            </div>
+                            {% endif %}
+                        </div>
+                        
+                        <h3 class="fw-bold mb-2">{{ current_user.name }}</h3>
+                        <p class="text-primary mb-3">{{ current_user.email }}</p>
+                        
+                        {% if current_user.bio %}
+                        <p class="text-light-gray mb-4">{{ current_user.bio }}</p>
+                        {% endif %}
+                        
+                        <div class="profile-stats mb-4">
+                            <div class="row text-center">
+                                <div class="col-6">
+                                    <div class="stat-number h4 text-primary">{{ current_user.comments|length }}</div>
+                                    <div class="stat-label small text-muted">Comentários</div>
+                                </div>
+                                <div class="col-6">
+                                    <div class="stat-number h4 text-danger">{{ current_user.likes|length }}</div>
+                                    <div class="stat-label small text-muted">Curtidas</div>
+                                </div>
+                            </div>
+                        </div>
+                        
+                        <button type="button" class="btn btn-primary w-100" data-bs-toggle="modal" data-bs-target="#editProfileModal">
+                            <i class="fas fa-edit me-2"></i>Editar Perfil
+                        </button>
+                        
+                        <div class="profile-info mt-4">
+                            <small class="text-muted">
+                                <i class="fas fa-calendar me-1"></i>
+                                Membro desde {{ current_user.created_at|format_date }}
+                            </small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+
+            <!-- Profile Content -->
+            <div class="col-lg-8">
+                <!-- Activity Feed -->
+                <div class="activity-section">
+                    <h4 class="fw-bold mb-4">
+                        <i class="fas fa-clock me-2 text-primary"></i>Atividade Recente
+                    </h4>
+
+                    <!-- Recent Comments -->
+                    {% if current_user.comments %}
+                    <div class="activity-card card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-transparent border-0">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fas fa-comments me-2 text-info"></i>Comentários Recentes
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            {% for comment in current_user.comments|reverse|slice(5) %}
+                            <div class="comment-activity mb-3">
+                                <div class="d-flex align-items-start">
+                                    <div class="activity-icon me-3">
+                                        <i class="fas fa-comment-alt text-info"></i>
+                                    </div>
+                                    <div class="flex-grow-1">
+                                        <p class="mb-1">
+                                            Você comentou em 
+                                            <a href="{{ url_for('main.project_detail', id=comment.project.id) }}" 
+                                               class="text-decoration-none fw-bold">{{ comment.project.title }}</a>
+                                        </p>
+                                        <blockquote class="blockquote-sm mb-2">
+                                            <p class="small text-muted">"{{ comment.content|truncate(100) }}"</p>
+                                        </blockquote>
+                                        <small class="text-muted">{{ comment.created_at|format_datetime }}</small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Recent Likes -->
+                    {% if current_user.likes %}
+                    <div class="activity-card card border-0 shadow-sm mb-4">
+                        <div class="card-header bg-transparent border-0">
+                            <h5 class="fw-bold mb-0">
+                                <i class="fas fa-heart me-2 text-danger"></i>Projetos Curtidos
+                            </h5>
+                        </div>
+                        <div class="card-body">
+                            {% for like in current_user.likes|reverse|slice(5) %}
+                            <div class="like-activity mb-3">
+                                <div class="d-flex align-items-center">
+                                    <div class="activity-icon me-3">
+                                        <i class="fas fa-heart text-danger"></i>
+                                    </div>
+                                    <div class="flex-grow-1 d-flex justify-content-between align-items-center">
+                                        <div>
+                                            <p class="mb-0">
+                                                Você curtiu 
+                                                <a href="{{ url_for('main.project_detail', id=like.project.id) }}" 
+                                                   class="text-decoration-none fw-bold">{{ like.project.title }}</a>
+                                            </p>
+                                            <small class="text-muted">{{ like.created_at|format_datetime }}</small>
+                                        </div>
+                                        {% if like.project.image_url %}
+                                        <img src="{{ url_for('main.uploaded_file', filename=like.project.image_url) }}" 
+                                             class="rounded" width="50" height="50" alt="{{ like.project.title }}">
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </div>
+                    {% endif %}
+
+                    <!-- Empty State -->
+                    {% if not current_user.comments and not current_user.likes %}
+                    <div class="empty-activity text-center py-5">
+                        <i class="fas fa-clock fa-3x text-muted mb-3"></i>
+                        <h5 class="text-muted mb-3">Nenhuma atividade ainda</h5>
+                        <p class="text-light-gray mb-4">
+                            Comece explorando os projetos e deixando comentários para ver sua atividade aqui.
+                        </p>
+                        <a href="{{ url_for('main.projects') }}" class="btn btn-primary">
+                            <i class="fas fa-folder-open me-2"></i>Explorar Projetos
+                        </a>
+                    </div>
+                    {% endif %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Edit Profile Modal -->
+<div class="modal fade" id="editProfileModal" tabindex="-1">
+    <div class="modal-dialog modal-lg">
+        <div class="modal-content">
+            <div class="modal-header">
+                <h5 class="modal-title">
+                    <i class="fas fa-user-edit me-2 text-primary"></i>Editar Perfil
+                </h5>
+                <button type="button" class="btn-close" data-bs-dismiss="modal"></button>
+            </div>
+            
+            <form method="POST" action="{{ url_for('main.edit_profile') }}" enctype="multipart/form-data">
+                {{ form.hidden_tag() }}
+                
+                <div class="modal-body">
+                    <div class="row">
+                        <div class="col-md-6">
+                            <div class="form-floating mb-3">
+                                {{ form.name() }}
+                                <label for="name">Nome Completo</label>
+                                {% if form.name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.name.errors[0] }}
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                        
+                        <div class="col-md-6">
+                            <div class="mb-3">
+                                <label for="profile_image" class="form-label">Foto de Perfil</label>
+                                {{ form.profile_image() }}
+                                {% if form.profile_image.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.profile_image.errors[0] }}
+                                </div>
+                                {% endif %}
+                                
+                                <!-- Current Image Preview -->
+                                {% if current_user.profile_image %}
+                                <div class="current-image-preview mt-2">
+                                    <img src="{{ url_for('main.uploaded_file', filename=current_user.profile_image) }}" 
+                                         class="rounded-circle" width="80" height="80" alt="Imagem atual">
+                                    <p class="small text-muted mt-1">Imagem atual</p>
+                                </div>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="form-floating mb-3">
+                        {{ form.bio() }}
+                        <label for="bio">Bio</label>
+                        {% if form.bio.errors %}
+                        <div class="invalid-feedback d-block">
+                            {{ form.bio.errors[0] }}
+                        </div>
+                        {% endif %}
+                    </div>
+                    
+                    <div class="alert alert-info">
+                        <i class="fas fa-info-circle me-2"></i>
+                        <strong>Dica:</strong> Uma bio interessante ajuda outros usuários a conhecerem você melhor!
+                    </div>
+                </div>
+                
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-secondary" data-bs-dismiss="modal">
+                        <i class="fas fa-times me-2"></i>Cancelar
+                    </button>
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-save me-2"></i>Salvar Alterações
+                    </button>
+                </div>
+            </form>
+        </div>
+    </div>
+</div>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Profile image preview
+    const profileImageInput = document.getElementById('profile_image');
+    if (profileImageInput) {
+        profileImageInput.addEventListener('change', function() {
+            const file = this.files[0];
+            if (file) {
+                const reader = new FileReader();
+                reader.onload = function(e) {
+                    // Create or update preview
+                    let preview = document.getElementById('imagePreview');
+                    if (!preview) {
+                        preview = document.createElement('div');
+                        preview.id = 'imagePreview';
+                        preview.className = 'image-preview mt-2';
+                        profileImageInput.parentNode.appendChild(preview);
+                    }
+                    
+                    preview.innerHTML = `
+                        <img src="${e.target.result}" class="rounded-circle" width="80" height="80" alt="Preview">
+                        <p class="small text-muted mt-1">Nova imagem</p>
+                    `;
+                };
+                reader.readAsDataURL(file);
+            }
+        });
+    }
+    
+    // Animate profile stats on load
+    const statNumbers = document.querySelectorAll('.stat-number');
+    statNumbers.forEach((stat, index) => {
+        const targetValue = parseInt(stat.textContent);
+        stat.textContent = '0';
+        
+        setTimeout(() => {
+            let currentValue = 0;
+            const increment = targetValue / 30;
+            const timer = setInterval(() => {
+                currentValue += increment;
+                if (currentValue >= targetValue) {
+                    stat.textContent = targetValue;
+                    clearInterval(timer);
+                } else {
+                    stat.textContent = Math.floor(currentValue);
+                }
+            }, 50);
+        }, index * 200);
+    });
+    
+    // Animate activity items on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.style.opacity = '1';
+                entry.target.style.transform = 'translateX(0)';
+            }
+        });
+    }, observerOptions);
+    
+    // Initialize activity animations
+    document.querySelectorAll('.comment-activity, .like-activity').forEach((item, index) => {
+        item.style.opacity = '0';
+        item.style.transform = 'translateX(-20px)';
+        item.style.transition = `all 0.6s ease ${index * 100}ms`;
+        observer.observe(item);
+    });
+});
+</script>
+{% endblock %}

@@ -1,0 +1,280 @@
+{% extends "base.html" %}
+
+{% block title %}Página Não Encontrada - 404{% endblock %}
+
+{% block content %}
+<section class="error-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-8 text-center">
+                <div class="error-content">
+                    <!-- Animated 404 -->
+                    <div class="error-number mb-4">
+                        <span class="error-digit animate-bounce">4</span>
+                        <span class="error-digit animate-pulse">0</span>
+                        <span class="error-digit animate-bounce">4</span>
+                    </div>
+                    
+                    <!-- Error Message -->
+                    <h1 class="display-4 fw-bold mb-3 text-gradient">
+                        Oops! Página Não Encontrada
+                    </h1>
+                    
+                    <p class="lead text-light-gray mb-4">
+                        A página que você está procurando não existe ou foi movida. 
+                        Mas não se preocupe, há muitas outras coisas interessantes para explorar!
+                    </p>
+                    
+                    <!-- Illustration -->
+                    <div class="error-illustration mb-5">
+                        <div class="floating-elements">
+                            <div class="float-element code-bracket">
+                                <i class="fas fa-code text-primary"></i>
+                            </div>
+                            <div class="float-element bug-icon">
+                                <i class="fas fa-bug text-warning"></i>
+                            </div>
+                            <div class="float-element search-icon">
+                                <i class="fas fa-search text-info"></i>
+                            </div>
+                            <div class="float-element question-mark">
+                                <i class="fas fa-question text-danger"></i>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Navigation Options -->
+                    <div class="error-actions">
+                        <a href="{{ url_for('main.index') }}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-home me-2"></i>Voltar ao Início
+                        </a>
+                        <a href="{{ url_for('main.projects') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-folder-open me-2"></i>Ver Projetos
+                        </a>
+                    </div>
+                    
+                    <!-- Quick Links -->
+                    <div class="quick-navigation mt-5">
+                        <h5 class="fw-bold mb-3">Ou explore essas seções:</h5>
+                        <div class="row">
+                            <div class="col-md-3 col-6 mb-3">
+                                <a href="{{ url_for('main.index') }}" class="quick-link">
+                                    <div class="quick-link-icon">
+                                        <i class="fas fa-home fa-2x text-primary"></i>
+                                    </div>
+                                    <h6 class="mt-2 mb-0">Início</h6>
+                                    <small class="text-muted">Página inicial</small>
+                                </a>
+                            </div>
+                            
+                            <div class="col-md-3 col-6 mb-3">
+                                <a href="{{ url_for('main.projects') }}" class="quick-link">
+                                    <div class="quick-link-icon">
+                                        <i class="fas fa-folder-open fa-2x text-success"></i>
+                                    </div>
+                                    <h6 class="mt-2 mb-0">Projetos</h6>
+                                    <small class="text-muted">Meu portfólio</small>
+                                </a>
+                            </div>
+                            
+                            <div class="col-md-3 col-6 mb-3">
+                                <a href="{{ url_for('main.about') }}" class="quick-link">
+                                    <div class="quick-link-icon">
+                                        <i class="fas fa-user fa-2x text-info"></i>
+                                    </div>
+                                    <h6 class="mt-2 mb-0">Sobre</h6>
+                                    <small class="text-muted">Conheça-me</small>
+                                </a>
+                            </div>
+                            
+                            <div class="col-md-3 col-6 mb-3">
+                                <a href="{{ url_for('main.contact') }}" class="quick-link">
+                                    <div class="quick-link-icon">
+                                        <i class="fas fa-envelope fa-2x text-warning"></i>
+                                    </div>
+                                    <h6 class="mt-2 mb-0">Contato</h6>
+                                    <small class="text-muted">Fale comigo</small>
+                                </a>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <!-- Search Box -->
+                    <div class="error-search mt-4">
+                        <p class="text-light-gray mb-3">Procurando algo específico?</p>
+                        <form method="GET" action="{{ url_for('main.projects') }}" class="search-form d-flex justify-content-center">
+                            <input type="text" name="search" class="form-control me-2" 
+                                   placeholder="Buscar projetos..." style="max-width: 300px;">
+                            <button type="submit" class="btn btn-primary">
+                                <i class="fas fa-search"></i>
+                            </button>
+                        </form>
+                    </div>
+                    
+                    <!-- Help Text -->
+                    <div class="error-help mt-5">
+                        <div class="alert alert-info d-inline-block">
+                            <i class="fas fa-lightbulb me-2"></i>
+                            <strong>Dica:</strong> Verifique se o endereço está correto ou use a navegação acima para encontrar o que procura.
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Fun Facts Section -->
+<section class="fun-facts-section py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h3 class="fw-bold mb-4">Já que você está aqui...</h3>
+                <div class="row">
+                    <div class="col-md-4 mb-3">
+                        <div class="fact-card">
+                            <div class="fact-icon mb-2">
+                                <i class="fas fa-code fa-2x text-primary"></i>
+                            </div>
+                            <h5 class="fw-bold">100+</h5>
+                            <p class="small text-light-gray">Linhas de código escritas hoje</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="fact-card">
+                            <div class="fact-icon mb-2">
+                                <i class="fas fa-coffee fa-2x text-warning"></i>
+                            </div>
+                            <h5 class="fw-bold">∞</h5>
+                            <p class="small text-light-gray">Cafés consumidos durante o desenvolvimento</p>
+                        </div>
+                    </div>
+                    
+                    <div class="col-md-4 mb-3">
+                        <div class="fact-card">
+                            <div class="fact-icon mb-2">
+                                <i class="fas fa-heart fa-2x text-danger"></i>
+                            </div>
+                            <h5 class="fw-bold">100%</h5>
+                            <p class="small text-light-gray">Paixão por desenvolvimento</p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate floating elements
+    function animateFloatingElements() {
+        const elements = document.querySelectorAll('.float-element');
+        elements.forEach((element, index) => {
+            const duration = 3000 + (index * 500);
+            const amplitude = 20 + (index * 5);
+            
+            setInterval(() => {
+                const offset = Math.sin(Date.now() / duration) * amplitude;
+                element.style.transform = `translate(${offset}px, ${offset * 0.5}px)`;
+            }, 16);
+        });
+    }
+    
+    // Animate 404 digits
+    function animateErrorDigits() {
+        const digits = document.querySelectorAll('.error-digit');
+        digits.forEach((digit, index) => {
+            digit.style.opacity = '0';
+            digit.style.transform = 'translateY(-50px)';
+            
+            setTimeout(() => {
+                digit.style.transition = 'all 0.8s cubic-bezier(0.68, -0.55, 0.265, 1.55)';
+                digit.style.opacity = '1';
+                digit.style.transform = 'translateY(0)';
+            }, index * 300);
+        });
+    }
+    
+    // Animate quick links on hover
+    const quickLinks = document.querySelectorAll('.quick-link');
+    quickLinks.forEach(link => {
+        link.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+            this.querySelector('.quick-link-icon i').style.transform = 'scale(1.2)';
+        });
+        
+        link.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            this.querySelector('.quick-link-icon i').style.transform = 'scale(1)';
+        });
+    });
+    
+    // Counter animation for fun facts
+    function animateCounters() {
+        const counters = document.querySelectorAll('.fact-card h5');
+        const observer = new IntersectionObserver((entries) => {
+            entries.forEach(entry => {
+                if (entry.isIntersecting) {
+                    const text = entry.target.textContent;
+                    if (text.includes('+') || text.includes('%')) {
+                        const number = parseInt(text);
+                        if (!isNaN(number)) {
+                            let current = 0;
+                            const increment = number / 30;
+                            const timer = setInterval(() => {
+                                current += increment;
+                                if (current >= number) {
+                                    entry.target.textContent = text;
+                                    clearInterval(timer);
+                                } else {
+                                    entry.target.textContent = Math.floor(current) + text.replace(number, '');
+                                }
+                            }, 50);
+                        }
+                    }
+                    observer.unobserve(entry.target);
+                }
+            });
+        }, { threshold: 0.5 });
+        
+        counters.forEach(counter => {
+            observer.observe(counter);
+        });
+    }
+    
+    // Initialize all animations
+    setTimeout(() => {
+        animateFloatingElements();
+        animateErrorDigits();
+        animateCounters();
+    }, 500);
+    
+    // Add some fun easter eggs
+    let clickCount = 0;
+    document.querySelector('.error-number').addEventListener('click', function() {
+        clickCount++;
+        if (clickCount === 3) {
+            this.style.transform = 'rotate(360deg)';
+            this.style.transition = 'transform 1s ease';
+            setTimeout(() => {
+                this.style.transform = 'rotate(0deg)';
+            }, 1000);
+        }
+        if (clickCount === 5) {
+            const messages = [
+                'Você é persistente! 😄',
+                'Ainda procurando bugs? 🐛',
+                'Error 418: I\'m a teapot ☕',
+                'Você encontrou um easter egg! 🥚'
+            ];
+            alert(messages[Math.floor(Math.random() * messages.length)]);
+            clickCount = 0;
+        }
+    });
+});
+</script>
+{% endblock %}

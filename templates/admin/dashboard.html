@@ -1,0 +1,333 @@
+{% extends "base.html" %}
+
+{% block title %}Dashboard Admin - Portfólio Digital{% endblock %}
+
+{% block content %}
+<section class="admin-section py-5">
+    <div class="container-fluid">
+        <!-- Header -->
+        <div class="d-flex justify-content-between align-items-center mb-4">
+            <div>
+                <h1 class="display-6 fw-bold mb-0">
+                    <i class="fas fa-tachometer-alt me-3 text-primary"></i>Dashboard Administrativo
+                </h1>
+                <p class="text-light-gray">Gerencie seu portfólio e acompanhe as estatísticas</p>
+            </div>
+            <div>
+                <a href="{{ url_for('admin.new_project') }}" class="btn btn-primary me-2">
+                    <i class="fas fa-plus me-2"></i>Novo Projeto
+                </a>
+                <a href="{{ url_for('main.index') }}" class="btn btn-outline-primary">
+                    <i class="fas fa-eye me-2"></i>Ver Site
+                </a>
+            </div>
+        </div>
+
+        <!-- Statistics Cards -->
+        <div class="row mb-5">
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-primary-light me-3">
+                                <i class="fas fa-folder-open fa-2x text-primary"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0">{{ stats.total_projects }}</h3>
+                                <p class="text-muted mb-0">Total de Projetos</p>
+                                <small class="text-success">
+                                    <i class="fas fa-eye me-1"></i>{{ stats.published_projects }} publicados
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-warning-light me-3">
+                                <i class="fas fa-trophy fa-2x text-warning"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0">{{ stats.total_achievements }}</h3>
+                                <p class="text-muted mb-0">Conquistas</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-success-light me-3">
+                                <i class="fas fa-users fa-2x text-success"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0">{{ stats.total_users }}</h3>
+                                <p class="text-muted mb-0">Usuários Cadastrados</p>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4">
+                <div class="stat-card card h-100 border-0 shadow-sm">
+                    <div class="card-body">
+                        <div class="d-flex align-items-center">
+                            <div class="stat-icon bg-info-light me-3">
+                                <i class="fas fa-heart fa-2x text-danger"></i>
+                            </div>
+                            <div>
+                                <h3 class="fw-bold mb-0">{{ stats.total_likes }}</h3>
+                                <p class="text-muted mb-0">Total de Curtidas</p>
+                                <small class="text-info">
+                                    <i class="fas fa-comment me-1"></i>{{ stats.total_comments }} comentários
+                                </small>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Recent Projects -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fas fa-folder-open me-2 text-primary"></i>Projetos Recentes
+                        </h5>
+                        <a href="{{ url_for('admin.projects_list') }}" class="btn btn-outline-primary btn-sm">
+                            Ver Todos
+                        </a>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_projects %}
+                        <div class="list-group list-group-flush">
+                            {% for project in recent_projects %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div class="d-flex align-items-center">
+                                    {% if project.image_url %}
+                                    <img src="{{ url_for('main.uploaded_file', filename=project.image_url) }}" 
+                                         class="rounded me-3" width="50" height="50" alt="{{ project.title }}">
+                                    {% else %}
+                                    <div class="placeholder-img me-3">
+                                        <i class="fas fa-image text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <h6 class="mb-1">{{ project.title }}</h6>
+                                        <small class="text-muted">{{ project.created_at|format_datetime }}</small>
+                                        <div class="mt-1">
+                                            {% if project.is_published %}
+                                            <span class="badge bg-success">Publicado</span>
+                                            {% else %}
+                                            <span class="badge bg-secondary">Rascunho</span>
+                                            {% endif %}
+                                            {% if project.is_featured %}
+                                            <span class="badge bg-warning">Destaque</span>
+                                            {% endif %}
+                                        </div>
+                                    </div>
+                                </div>
+                                <div class="project-actions">
+                                    <a href="{{ url_for('main.project_detail', id=project.id) }}" 
+                                       class="btn btn-outline-primary btn-sm me-1" title="Ver projeto">
+                                        <i class="fas fa-eye"></i>
+                                    </a>
+                                    <a href="{{ url_for('admin.edit_project', id=project.id) }}" 
+                                       class="btn btn-outline-secondary btn-sm" title="Editar">
+                                        <i class="fas fa-edit"></i>
+                                    </a>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Nenhum projeto encontrado</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Popular Projects -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-transparent border-0">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fas fa-fire me-2 text-danger"></i>Projetos Populares
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if popular_projects %}
+                        <div class="list-group list-group-flush">
+                            {% for project in popular_projects %}
+                            <div class="list-group-item d-flex justify-content-between align-items-center px-0">
+                                <div class="d-flex align-items-center">
+                                    {% if project.image_url %}
+                                    <img src="{{ url_for('main.uploaded_file', filename=project.image_url) }}" 
+                                         class="rounded me-3" width="50" height="50" alt="{{ project.title }}">
+                                    {% else %}
+                                    <div class="placeholder-img me-3">
+                                        <i class="fas fa-image text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div>
+                                        <h6 class="mb-1">{{ project.title }}</h6>
+                                        <div class="d-flex align-items-center">
+                                            <small class="text-danger me-3">
+                                                <i class="fas fa-heart me-1"></i>{{ project.likes_count }}
+                                            </small>
+                                            <small class="text-muted">
+                                                <i class="fas fa-comment me-1"></i>{{ project.comments_count }}
+                                            </small>
+                                        </div>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-chart-line fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Nenhum dado de popularidade ainda</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+
+        <div class="row">
+            <!-- Recent Comments -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-transparent border-0">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fas fa-comments me-2 text-info"></i>Comentários Recentes
+                        </h5>
+                    </div>
+                    <div class="card-body">
+                        {% if recent_comments %}
+                        <div class="list-group list-group-flush">
+                            {% for comment in recent_comments %}
+                            <div class="list-group-item px-0">
+                                <div class="d-flex align-items-start">
+                                    {% if comment.user.profile_image %}
+                                    <img src="{{ url_for('main.uploaded_file', filename=comment.user.profile_image) }}" 
+                                         class="rounded-circle me-3" width="40" height="40" alt="{{ comment.user.name }}">
+                                    {% else %}
+                                    <div class="avatar-placeholder me-3">
+                                        <i class="fas fa-user-circle fa-2x text-muted"></i>
+                                    </div>
+                                    {% endif %}
+                                    <div class="flex-grow-1">
+                                        <h6 class="mb-1">{{ comment.user.name }}</h6>
+                                        <p class="mb-1 small">{{ comment.content|truncate(100) }}</p>
+                                        <small class="text-muted">
+                                            em <strong>{{ comment.project.title }}</strong> - {{ comment.created_at|format_datetime }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-comments fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Nenhum comentário ainda</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+
+            <!-- Contact Messages -->
+            <div class="col-lg-6 mb-4">
+                <div class="card border-0 shadow-sm h-100">
+                    <div class="card-header bg-transparent border-0 d-flex justify-content-between align-items-center">
+                        <h5 class="fw-bold mb-0">
+                            <i class="fas fa-envelope me-2 text-success"></i>Mensagens de Contato
+                        </h5>
+                        {% if stats.unread_messages > 0 %}
+                        <span class="badge bg-danger">{{ stats.unread_messages }} não lidas</span>
+                        {% endif %}
+                    </div>
+                    <div class="card-body">
+                        {% if recent_messages %}
+                        <div class="list-group list-group-flush">
+                            {% for message in recent_messages %}
+                            <div class="list-group-item px-0 {% if not message.is_read %}bg-light-primary{% endif %}">
+                                <div class="d-flex justify-content-between align-items-start">
+                                    <div>
+                                        <h6 class="mb-1">
+                                            {{ message.name }}
+                                            {% if not message.is_read %}
+                                            <span class="badge bg-primary ms-2">Nova</span>
+                                            {% endif %}
+                                        </h6>
+                                        <p class="mb-1"><strong>{{ message.subject }}</strong></p>
+                                        <p class="mb-1 small text-muted">{{ message.message|truncate(80) }}</p>
+                                        <small class="text-muted">
+                                            <i class="fas fa-envelope me-1"></i>{{ message.email }} - 
+                                            {{ message.created_at|format_datetime }}
+                                        </small>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                        {% else %}
+                        <div class="text-center py-4">
+                            <i class="fas fa-inbox fa-3x text-muted mb-3"></i>
+                            <p class="text-muted">Nenhuma mensagem ainda</p>
+                        </div>
+                        {% endif %}
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate stat cards on load
+    const statCards = document.querySelectorAll('.stat-card');
+    statCards.forEach((card, index) => {
+        card.style.opacity = '0';
+        card.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            card.style.transition = 'all 0.6s ease';
+            card.style.opacity = '1';
+            card.style.transform = 'translateY(0)';
+        }, index * 100);
+    });
+    
+    // Add hover effects to project actions
+    const actionButtons = document.querySelectorAll('.project-actions .btn');
+    actionButtons.forEach(button => {
+        button.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+        });
+        
+        button.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
+{% endblock %}

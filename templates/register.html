@@ -1,0 +1,197 @@
+{% extends "base.html" %}
+
+{% block title %}Cadastro - Portfólio Digital{% endblock %}
+
+{% block content %}
+<section class="auth-section py-5">
+    <div class="container">
+        <div class="row justify-content-center">
+            <div class="col-lg-6 col-md-8">
+                <div class="auth-card card shadow-lg border-0">
+                    <div class="card-body p-5">
+                        <div class="text-center mb-4">
+                            <div class="auth-icon mb-3">
+                                <i class="fas fa-user-plus fa-3x text-primary"></i>
+                            </div>
+                            <h2 class="fw-bold">Criar Conta</h2>
+                            <p class="text-light-gray">Junte-se à nossa comunidade</p>
+                        </div>
+                        
+                        <form method="POST" class="auth-form">
+                            {{ form.hidden_tag() }}
+                            
+                            <div class="form-floating mb-3">
+                                {{ form.name() }}
+                                <label for="name">
+                                    <i class="fas fa-user me-2"></i>Nome Completo
+                                </label>
+                                {% if form.name.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.name.errors[0] }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="form-floating mb-3">
+                                {{ form.email() }}
+                                <label for="email">
+                                    <i class="fas fa-envelope me-2"></i>Email
+                                </label>
+                                {% if form.email.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.email.errors[0] }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="row">
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.password() }}
+                                        <label for="password">
+                                            <i class="fas fa-lock me-2"></i>Senha
+                                        </label>
+                                        <div class="password-toggle">
+                                            <i class="fas fa-eye" id="togglePassword"></i>
+                                        </div>
+                                        {% if form.password.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.password.errors[0] }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                                
+                                <div class="col-md-6">
+                                    <div class="form-floating mb-3">
+                                        {{ form.password2() }}
+                                        <label for="password2">
+                                            <i class="fas fa-lock me-2"></i>Confirmar Senha
+                                        </label>
+                                        <div class="password-toggle">
+                                            <i class="fas fa-eye" id="togglePassword2"></i>
+                                        </div>
+                                        {% if form.password2.errors %}
+                                        <div class="invalid-feedback d-block">
+                                            {{ form.password2.errors[0] }}
+                                        </div>
+                                        {% endif %}
+                                    </div>
+                                </div>
+                            </div>
+                            
+                            <div class="form-floating mb-4">
+                                {{ form.bio() }}
+                                <label for="bio">
+                                    <i class="fas fa-info-circle me-2"></i>Bio (Opcional)
+                                </label>
+                                {% if form.bio.errors %}
+                                <div class="invalid-feedback d-block">
+                                    {{ form.bio.errors[0] }}
+                                </div>
+                                {% endif %}
+                            </div>
+                            
+                            <div class="password-strength mb-3">
+                                <div class="strength-meter">
+                                    <div class="strength-bar"></div>
+                                </div>
+                                <small class="strength-text text-muted">Digite uma senha para ver a força</small>
+                            </div>
+                            
+                            <button type="submit" class="btn btn-primary w-100 py-3 fw-bold">
+                                <i class="fas fa-user-plus me-2"></i>Criar Conta
+                            </button>
+                        </form>
+                        
+                        <div class="text-center mt-4">
+                            <p class="text-light-gray">
+                                Já tem uma conta?
+                                <a href="{{ url_for('auth.login') }}" class="text-primary text-decoration-none fw-bold">
+                                    Entre aqui
+                                </a>
+                            </p>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Password visibility toggles
+    function setupPasswordToggle(toggleId, passwordId) {
+        const toggle = document.getElementById(toggleId);
+        const password = document.getElementById(passwordId);
+        
+        if (toggle && password) {
+            toggle.addEventListener('click', function() {
+                const type = password.getAttribute('type') === 'password' ? 'text' : 'password';
+                password.setAttribute('type', type);
+                this.classList.toggle('fa-eye');
+                this.classList.toggle('fa-eye-slash');
+            });
+        }
+    }
+    
+    setupPasswordToggle('togglePassword', 'password');
+    setupPasswordToggle('togglePassword2', 'password2');
+    
+    // Password strength indicator
+    const passwordField = document.getElementById('password');
+    const strengthBar = document.querySelector('.strength-bar');
+    const strengthText = document.querySelector('.strength-text');
+    
+    if (passwordField && strengthBar && strengthText) {
+        passwordField.addEventListener('input', function() {
+            const password = this.value;
+            const strength = calculatePasswordStrength(password);
+            
+            strengthBar.style.width = strength.percentage + '%';
+            strengthBar.className = 'strength-bar ' + strength.class;
+            strengthText.textContent = strength.text;
+        });
+    }
+    
+    function calculatePasswordStrength(password) {
+        let score = 0;
+        
+        if (password.length >= 6) score++;
+        if (password.length >= 10) score++;
+        if (/[a-z]/.test(password)) score++;
+        if (/[A-Z]/.test(password)) score++;
+        if (/[0-9]/.test(password)) score++;
+        if (/[^A-Za-z0-9]/.test(password)) score++;
+        
+        const levels = [
+            { score: 0, class: '', text: 'Digite uma senha', percentage: 0 },
+            { score: 1, class: 'weak', text: 'Muito fraca', percentage: 20 },
+            { score: 2, class: 'weak', text: 'Fraca', percentage: 40 },
+            { score: 3, class: 'medium', text: 'Média', percentage: 60 },
+            { score: 4, class: 'strong', text: 'Forte', percentage: 80 },
+            { score: 5, class: 'very-strong', text: 'Muito forte', percentage: 90 },
+            { score: 6, class: 'very-strong', text: 'Excelente', percentage: 100 }
+        ];
+        
+        return levels[Math.min(score, levels.length - 1)];
+    }
+    
+    // Form animation on load
+    const authCard = document.querySelector('.auth-card');
+    if (authCard) {
+        authCard.style.opacity = '0';
+        authCard.style.transform = 'translateY(20px)';
+        
+        setTimeout(() => {
+            authCard.style.transition = 'all 0.6s ease';
+            authCard.style.opacity = '1';
+            authCard.style.transform = 'translateY(0)';
+        }, 200);
+    }
+});
+</script>
+{% endblock %}

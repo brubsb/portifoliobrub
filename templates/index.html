@@ -1,0 +1,359 @@
+{% extends "base.html" %}
+
+{% block title %}Portfólio Digital - Bruna Barboza | Desenvolvedora Full Stack{% endblock %}
+{% block description %}Portfólio digital de Bruna Barboza - Desenvolvedora Full Stack com experiência em Python, JavaScript e tecnologias modernas{% endblock %}
+
+{% block content %}
+<!-- Hero Section -->
+<section class="hero-section">
+    <div class="hero-background">
+        <div class="hero-particles"></div>
+    </div>
+    <div class="container">
+        <div class="row align-items-center min-vh-100">
+            <div class="col-lg-6">
+                <div class="hero-content" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold mb-4 text-gradient">
+                        Olá, eu sou
+                        <span class="d-block">Bruna Barboza</span>
+                    </h1>
+                    <p class="lead mb-4 text-light-gray">
+                        Desenvolvedora Full Stack apaixonada por criar experiências digitais 
+                        inovadoras e soluções tecnológicas que fazem a diferença.
+                    </p>
+                    <div class="hero-stats mb-4">
+                        <div class="row">
+                            <div class="col-4 text-center">
+                                <div class="stat-number text-primary fw-bold h3">{{ stats.projects }}+</div>
+                                <div class="stat-label small text-muted">Projetos</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-number text-primary fw-bold h3">{{ stats.achievements }}+</div>
+                                <div class="stat-label small text-muted">Conquistas</div>
+                            </div>
+                            <div class="col-4 text-center">
+                                <div class="stat-number text-primary fw-bold h3">{{ stats.likes }}+</div>
+                                <div class="stat-label small text-muted">Curtidas</div>
+                            </div>
+                        </div>
+                    </div>
+                    <div class="hero-buttons">
+                        <a href="{{ url_for('main.projects') }}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-folder-open me-2"></i>Ver Projetos
+                        </a>
+                        <a href="{{ url_for('main.contact') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Contato
+                        </a>
+                    </div>
+                </div>
+            </div>
+            <div class="col-lg-6">
+                <div class="hero-image" data-aos="fade-left">
+                    <div class="hero-avatar">
+                        <div class="avatar-container">
+                            <div class="avatar-bg"></div>
+                            <i class="fas fa-user-circle avatar-icon"></i>
+                        </div>
+                    </div>
+                    <div class="floating-elements">
+                        <div class="float-element float-1">
+                            <i class="fab fa-python"></i>
+                        </div>
+                        <div class="float-element float-2">
+                            <i class="fab fa-js-square"></i>
+                        </div>
+                        <div class="float-element float-3">
+                            <i class="fab fa-react"></i>
+                        </div>
+                        <div class="float-element float-4">
+                            <i class="fas fa-database"></i>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+    <div class="scroll-indicator">
+        <div class="scroll-arrow"></div>
+    </div>
+</section>
+
+<!-- Featured Projects Section -->
+<section class="py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Projetos em Destaque</h2>
+                <p class="lead text-light-gray">
+                    Alguns dos meus trabalhos mais recentes e relevantes
+                </p>
+            </div>
+        </div>
+        
+        {% if featured_projects %}
+        <div class="row">
+            {% for project in featured_projects %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="project-card card h-100">
+                    {% if project.image_url %}
+                    <div class="card-img-wrapper">
+                        <img src="{{ url_for('main.uploaded_file', filename=project.image_url) }}" 
+                             class="card-img-top" alt="{{ project.title }}">
+                        <div class="card-img-overlay">
+                            <div class="project-actions">
+                                <a href="{{ url_for('main.project_detail', id=project.id) }}" 
+                                   class="btn btn-primary btn-sm">
+                                    <i class="fas fa-eye"></i>
+                                </a>
+                                {% if project.project_url %}
+                                <a href="{{ project.project_url }}" target="_blank" 
+                                   class="btn btn-secondary btn-sm">
+                                    <i class="fas fa-external-link-alt"></i>
+                                </a>
+                                {% endif %}
+                                {% if project.github_url %}
+                                <a href="{{ project.github_url }}" target="_blank" 
+                                   class="btn btn-secondary btn-sm">
+                                    <i class="fab fa-github"></i>
+                                </a>
+                                {% endif %}
+                            </div>
+                        </div>
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <div class="d-flex justify-content-between align-items-start mb-2">
+                            <h5 class="card-title">{{ project.title }}</h5>
+                            {% if project.category %}
+                            <span class="badge bg-primary">{{ project.category.name }}</span>
+                            {% endif %}
+                        </div>
+                        <p class="card-text text-light-gray">
+                            {{ project.description|truncate(120) }}
+                        </p>
+                        
+                        {% if project.tags %}
+                        <div class="project-tags mb-3">
+                            {% for tag in project.tags[:3] %}
+                            <span class="badge bg-dark-light me-1"># {{ tag.name }}</span>
+                            {% endfor %}
+                            {% if project.tags|length > 3 %}
+                            <span class="badge bg-dark-light">+{{ project.tags|length - 3 }}</span>
+                            {% endif %}
+                        </div>
+                        {% endif %}
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            <div class="project-stats">
+                                <small class="text-muted me-3">
+                                    <i class="fas fa-heart me-1"></i>{{ project.likes_count }}
+                                </small>
+                                <small class="text-muted">
+                                    <i class="fas fa-comment me-1"></i>{{ project.comments_count }}
+                                </small>
+                            </div>
+                            <small class="text-muted">{{ project.created_at|format_date }}</small>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+        
+        <div class="text-center mt-4" data-aos="fade-up">
+            <a href="{{ url_for('main.projects') }}" class="btn btn-outline-primary btn-lg">
+                <i class="fas fa-folder-open me-2"></i>Ver Todos os Projetos
+            </a>
+        </div>
+        {% else %}
+        <div class="text-center py-5" data-aos="fade-up">
+            <i class="fas fa-folder-open fa-3x text-muted mb-3"></i>
+            <h4 class="text-muted">Nenhum projeto em destaque</h4>
+            <p class="text-light-gray">Os projetos aparecerão aqui quando estiverem disponíveis.</p>
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Latest Achievements Section -->
+{% if latest_achievements %}
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Últimas Conquistas</h2>
+                <p class="lead text-light-gray">
+                    Certificações e conquistas recentes na minha jornada profissional
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            {% for achievement in latest_achievements %}
+            <div class="col-lg-4 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                <div class="achievement-card card h-100">
+                    {% if achievement.image_url %}
+                    <div class="card-img-wrapper">
+                        <img src="{{ url_for('main.uploaded_file', filename=achievement.image_url) }}" 
+                             class="card-img-top" alt="{{ achievement.title }}">
+                    </div>
+                    {% endif %}
+                    
+                    <div class="card-body">
+                        <div class="d-flex align-items-center mb-2">
+                            <i class="fas fa-trophy text-warning me-2"></i>
+                            <h5 class="card-title mb-0">{{ achievement.title }}</h5>
+                        </div>
+                        
+                        {% if achievement.issuer %}
+                        <p class="text-primary mb-2">{{ achievement.issuer }}</p>
+                        {% endif %}
+                        
+                        <p class="card-text text-light-gray">
+                            {{ achievement.description|truncate(150) }}
+                        </p>
+                        
+                        <div class="d-flex justify-content-between align-items-center">
+                            {% if achievement.certificate_url %}
+                            <a href="{{ achievement.certificate_url }}" target="_blank" 
+                               class="btn btn-outline-primary btn-sm">
+                                <i class="fas fa-external-link-alt me-1"></i>Ver Certificado
+                            </a>
+                            {% endif %}
+                            {% if achievement.date_achieved %}
+                            <small class="text-muted">{{ achievement.date_achieved|format_date }}</small>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+    </div>
+</section>
+{% endif %}
+
+<!-- Skills Section -->
+<section class="py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Tecnologias & Habilidades</h2>
+                <p class="lead text-light-gray">
+                    Principais tecnologias que utilizo no desenvolvimento de soluções
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="0">
+                <div class="skill-card text-center">
+                    <div class="skill-icon">
+                        <i class="fab fa-python fa-3x text-primary"></i>
+                    </div>
+                    <h5 class="mt-3">Backend</h5>
+                    <p class="text-light-gray small">Python, Flask, Django, FastAPI, Node.js</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="100">
+                <div class="skill-card text-center">
+                    <div class="skill-icon">
+                        <i class="fab fa-js-square fa-3x text-warning"></i>
+                    </div>
+                    <h5 class="mt-3">Frontend</h5>
+                    <p class="text-light-gray small">JavaScript, React, Vue.js, HTML5, CSS3</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="200">
+                <div class="skill-card text-center">
+                    <div class="skill-icon">
+                        <i class="fas fa-database fa-3x text-success"></i>
+                    </div>
+                    <h5 class="mt-3">Database</h5>
+                    <p class="text-light-gray small">PostgreSQL, MongoDB, MySQL, Redis</p>
+                </div>
+            </div>
+            
+            <div class="col-lg-3 col-md-6 mb-4" data-aos="fade-up" data-aos-delay="300">
+                <div class="skill-card text-center">
+                    <div class="skill-icon">
+                        <i class="fab fa-aws fa-3x text-info"></i>
+                    </div>
+                    <h5 class="mt-3">Cloud & DevOps</h5>
+                    <p class="text-light-gray small">AWS, Docker, Git, CI/CD, Linux</p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- CTA Section -->
+<section class="py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Vamos Trabalhar Juntos?</h2>
+                <p class="lead text-light-gray mb-4">
+                    Tenho experiência em desenvolvimento full stack e estou sempre em busca de novos desafios. 
+                    Entre em contato para discutirmos seu próximo projeto!
+                </p>
+                <div class="cta-buttons">
+                    <a href="{{ url_for('main.contact') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-envelope me-2"></i>Entre em Contato
+                    </a>
+                    <a href="{{ url_for('main.projects') }}" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-folder-open me-2"></i>Ver Portfolio
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+// Initialize AOS (Animate On Scroll) library
+document.addEventListener('DOMContentLoaded', function() {
+    // Simulate loading screen
+    setTimeout(function() {
+        document.getElementById('loading-screen').style.opacity = '0';
+        setTimeout(function() {
+            document.getElementById('loading-screen').style.display = 'none';
+        }, 500);
+    }, 1000);
+    
+    // Add scroll animations
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, { threshold: 0.1 });
+    
+    document.querySelectorAll('[data-aos]').forEach(el => {
+        observer.observe(el);
+    });
+});
+
+// Floating animation for hero elements
+function animateFloatingElements() {
+    const elements = document.querySelectorAll('.float-element');
+    elements.forEach((el, index) => {
+        const duration = 3000 + (index * 500);
+        const delay = index * 200;
+        
+        setInterval(() => {
+            el.style.transform = `translateY(${Math.sin(Date.now() / duration) * 20}px)`;
+        }, 16);
+    });
+}
+
+// Initialize animations
+document.addEventListener('DOMContentLoaded', animateFloatingElements);
+</script>
+{% endblock %}

@@ -1,0 +1,461 @@
+{% extends "base.html" %}
+
+{% block title %}Sobre Mim - Bruna Barboza | Desenvolvedora Full Stack{% endblock %}
+{% block description %}Conheça mais sobre Bruna Barboza, desenvolvedora full stack apaixonada por tecnologia e inovação{% endblock %}
+
+{% block content %}
+<!-- About Hero Section -->
+<section class="about-hero py-5">
+    <div class="container">
+        <div class="row align-items-center min-vh-75">
+            <div class="col-lg-6 order-lg-2">
+                <div class="about-image text-center" data-aos="fade-left">
+                    <div class="image-container">
+                        <div class="image-bg"></div>
+                        <div class="profile-image">
+                            <i class="fas fa-user-circle fa-10x text-primary"></i>
+                        </div>
+                        <div class="floating-elements">
+                            <div class="float-icon float-1">
+                                <i class="fas fa-laptop-code text-primary"></i>
+                            </div>
+                            <div class="float-icon float-2">
+                                <i class="fas fa-lightbulb text-warning"></i>
+                            </div>
+                            <div class="float-icon float-3">
+                                <i class="fas fa-rocket text-info"></i>
+                            </div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <div class="col-lg-6 order-lg-1">
+                <div class="about-content" data-aos="fade-right">
+                    <h1 class="display-4 fw-bold mb-4">
+                        Olá! Eu sou <span class="text-gradient">Bruna Barboza</span>
+                    </h1>
+                    <p class="lead mb-4 text-light-gray">
+                        Desenvolvedora Full Stack apaixonada por criar soluções digitais inovadoras 
+                        que transformam ideias em realidade através da tecnologia.
+                    </p>
+                    
+                    <div class="about-highlights mb-4">
+                        <div class="highlight-item d-flex align-items-center mb-3">
+                            <div class="highlight-icon me-3">
+                                <i class="fas fa-code text-primary"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Desenvolvimento Full Stack</h5>
+                                <p class="text-light-gray mb-0">Experiência completa do frontend ao backend</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item d-flex align-items-center mb-3">
+                            <div class="highlight-icon me-3">
+                                <i class="fas fa-mobile-alt text-success"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Design Responsivo</h5>
+                                <p class="text-light-gray mb-0">Interfaces que funcionam em qualquer dispositivo</p>
+                            </div>
+                        </div>
+                        
+                        <div class="highlight-item d-flex align-items-center">
+                            <div class="highlight-icon me-3">
+                                <i class="fas fa-users text-info"></i>
+                            </div>
+                            <div>
+                                <h5 class="mb-1">Foco no Usuário</h5>
+                                <p class="text-light-gray mb-0">Experiências intuitivas e acessíveis</p>
+                            </div>
+                        </div>
+                    </div>
+                    
+                    <div class="about-actions">
+                        <a href="{{ url_for('main.projects') }}" class="btn btn-primary btn-lg me-3">
+                            <i class="fas fa-folder-open me-2"></i>Ver Projetos
+                        </a>
+                        <a href="{{ url_for('main.contact') }}" class="btn btn-outline-primary btn-lg">
+                            <i class="fas fa-envelope me-2"></i>Contato
+                        </a>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Skills Section -->
+<section class="skills-section py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Minhas Habilidades</h2>
+                <p class="lead text-light-gray">
+                    Tecnologias e ferramentas que domino para criar soluções completas
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <!-- Frontend Skills -->
+            <div class="col-lg-6 mb-4">
+                <div class="skills-category" data-aos="fade-up" data-aos-delay="100">
+                    <h4 class="fw-bold mb-4">
+                        <i class="fas fa-palette me-2 text-primary"></i>Frontend
+                    </h4>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">HTML5 & CSS3</span>
+                            <span class="skill-percentage">95%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 95%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">JavaScript</span>
+                            <span class="skill-percentage">90%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 90%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">React.js</span>
+                            <span class="skill-percentage">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 85%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">Vue.js</span>
+                            <span class="skill-percentage">80%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress" style="width: 80%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+            
+            <!-- Backend Skills -->
+            <div class="col-lg-6 mb-4">
+                <div class="skills-category" data-aos="fade-up" data-aos-delay="200">
+                    <h4 class="fw-bold mb-4">
+                        <i class="fas fa-server me-2 text-success"></i>Backend
+                    </h4>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">Python</span>
+                            <span class="skill-percentage">92%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress bg-success" style="width: 92%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">Flask</span>
+                            <span class="skill-percentage">88%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress bg-success" style="width: 88%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">Node.js</span>
+                            <span class="skill-percentage">82%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress bg-success" style="width: 82%"></div>
+                        </div>
+                    </div>
+                    
+                    <div class="skill-item mb-3">
+                        <div class="d-flex justify-content-between mb-1">
+                            <span class="skill-name">PostgreSQL</span>
+                            <span class="skill-percentage">85%</span>
+                        </div>
+                        <div class="skill-bar">
+                            <div class="skill-progress bg-success" style="width: 85%"></div>
+                        </div>
+                    </div>
+                </div>
+            </div>
+        </div>
+        
+        <!-- Tools and Technologies -->
+        <div class="row mt-5">
+            <div class="col-lg-12 text-center" data-aos="fade-up" data-aos-delay="300">
+                <h4 class="fw-bold mb-4">Ferramentas & Tecnologias</h4>
+                <div class="tech-icons">
+                    <div class="tech-icon">
+                        <i class="fab fa-git-alt fa-3x text-danger"></i>
+                        <p class="mt-2">Git</p>
+                    </div>
+                    <div class="tech-icon">
+                        <i class="fab fa-docker fa-3x text-info"></i>
+                        <p class="mt-2">Docker</p>
+                    </div>
+                    <div class="tech-icon">
+                        <i class="fab fa-aws fa-3x text-warning"></i>
+                        <p class="mt-2">AWS</p>
+                    </div>
+                    <div class="tech-icon">
+                        <i class="fas fa-database fa-3x text-primary"></i>
+                        <p class="mt-2">MongoDB</p>
+                    </div>
+                    <div class="tech-icon">
+                        <i class="fab fa-linux fa-3x text-dark"></i>
+                        <p class="mt-2">Linux</p>
+                    </div>
+                    <div class="tech-icon">
+                        <i class="fas fa-code-branch fa-3x text-secondary"></i>
+                        <p class="mt-2">CI/CD</p>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Experience Timeline -->
+<section class="experience-section py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Minha Jornada</h2>
+                <p class="lead text-light-gray">
+                    Um resumo da minha trajetória profissional e acadêmica
+                </p>
+            </div>
+        </div>
+        
+        <div class="timeline">
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="100">
+                <div class="timeline-marker">
+                    <i class="fas fa-graduation-cap"></i>
+                </div>
+                <div class="timeline-content">
+                    <h5 class="fw-bold">Formação em Desenvolvimento</h5>
+                    <p class="text-primary mb-2">2020 - 2023</p>
+                    <p class="text-light-gray">
+                        Formação sólida em desenvolvimento de software, com foco em 
+                        tecnologias web modernas e boas práticas de programação.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="200">
+                <div class="timeline-marker">
+                    <i class="fas fa-code"></i>
+                </div>
+                <div class="timeline-content">
+                    <h5 class="fw-bold">Primeiros Projetos</h5>
+                    <p class="text-primary mb-2">2021 - 2022</p>
+                    <p class="text-light-gray">
+                        Desenvolvimento dos primeiros projetos pessoais, explorando 
+                        diferentes tecnologias e construindo um portfólio consistente.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="300">
+                <div class="timeline-marker">
+                    <i class="fas fa-briefcase"></i>
+                </div>
+                <div class="timeline-content">
+                    <h5 class="fw-bold">Experiência Profissional</h5>
+                    <p class="text-primary mb-2">2023 - Presente</p>
+                    <p class="text-light-gray">
+                        Aplicação dos conhecimentos em projetos reais, desenvolvendo 
+                        soluções completas e trabalhando com equipes multidisciplinares.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="timeline-item" data-aos="fade-up" data-aos-delay="400">
+                <div class="timeline-marker">
+                    <i class="fas fa-rocket"></i>
+                </div>
+                <div class="timeline-content">
+                    <h5 class="fw-bold">Especialização Contínua</h5>
+                    <p class="text-primary mb-2">Sempre</p>
+                    <p class="text-light-gray">
+                        Aprendizado constante de novas tecnologias, participação em 
+                        comunidades de desenvolvedores e contribuição para projetos open source.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Values Section -->
+<section class="values-section py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center mb-5" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Meus Valores</h2>
+                <p class="lead text-light-gray">
+                    Princípios que guiam meu trabalho e abordagem ao desenvolvimento
+                </p>
+            </div>
+        </div>
+        
+        <div class="row">
+            <div class="col-lg-4 mb-4">
+                <div class="value-card text-center h-100" data-aos="fade-up" data-aos-delay="100">
+                    <div class="value-icon mb-3">
+                        <i class="fas fa-heart fa-3x text-danger"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Paixão</h4>
+                    <p class="text-light-gray">
+                        Amor genuíno pela programação e pela criação de soluções 
+                        que fazem diferença na vida das pessoas.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="value-card text-center h-100" data-aos="fade-up" data-aos-delay="200">
+                    <div class="value-icon mb-3">
+                        <i class="fas fa-lightbulb fa-3x text-warning"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Inovação</h4>
+                    <p class="text-light-gray">
+                        Busca constante por soluções criativas e uso de tecnologias 
+                        modernas para resolver problemas complexos.
+                    </p>
+                </div>
+            </div>
+            
+            <div class="col-lg-4 mb-4">
+                <div class="value-card text-center h-100" data-aos="fade-up" data-aos-delay="300">
+                    <div class="value-icon mb-3">
+                        <i class="fas fa-star fa-3x text-info"></i>
+                    </div>
+                    <h4 class="fw-bold mb-3">Qualidade</h4>
+                    <p class="text-light-gray">
+                        Compromisso com código limpo, boas práticas e entrega 
+                        de produtos que superam expectativas.
+                    </p>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Contact CTA -->
+<section class="contact-cta py-5">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center" data-aos="fade-up">
+                <h2 class="display-6 fw-bold mb-3">Vamos Conversar?</h2>
+                <p class="lead text-light-gray mb-4">
+                    Estou sempre aberta a novos desafios e oportunidades de colaboração. 
+                    Entre em contato para discutirmos seu próximo projeto!
+                </p>
+                
+                <div class="contact-actions">
+                    <a href="{{ url_for('main.contact') }}" class="btn btn-primary btn-lg me-3">
+                        <i class="fas fa-envelope me-2"></i>Entre em Contato
+                    </a>
+                    <a href="mailto:brunabarbozasofia@gmail.com" class="btn btn-outline-primary btn-lg">
+                        <i class="fas fa-paper-plane me-2"></i>Email Direto
+                    </a>
+                </div>
+                
+                <div class="social-links mt-4">
+                    <a href="https://linkedin.com/in/brunabarboza" target="_blank" class="social-link me-3">
+                        <i class="fab fa-linkedin-in fa-2x"></i>
+                    </a>
+                    <a href="https://github.com/brubsb" target="_blank" class="social-link me-3">
+                        <i class="fab fa-github fa-2x"></i>
+                    </a>
+                    <a href="mailto:brunabarbozasofia@gmail.com" class="social-link">
+                        <i class="fas fa-envelope fa-2x"></i>
+                    </a>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // Animate skill bars
+    const skillBars = document.querySelectorAll('.skill-progress');
+    const skillObserver = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                const width = entry.target.style.width;
+                entry.target.style.width = '0%';
+                
+                setTimeout(() => {
+                    entry.target.style.transition = 'width 1.5s ease-in-out';
+                    entry.target.style.width = width;
+                }, 200);
+                
+                skillObserver.unobserve(entry.target);
+            }
+        });
+    }, { threshold: 0.5 });
+    
+    skillBars.forEach(bar => {
+        skillObserver.observe(bar);
+    });
+    
+    // Animate floating elements
+    function animateFloatingIcons() {
+        const floatingIcons = document.querySelectorAll('.float-icon');
+        floatingIcons.forEach((icon, index) => {
+            const duration = 2000 + (index * 300);
+            const delay = index * 100;
+            
+            setInterval(() => {
+                const offset = Math.sin(Date.now() / duration) * 15;
+                icon.style.transform = `translateY(${offset}px)`;
+            }, 16);
+        });
+    }
+    
+    // Initialize animations
+    animateFloatingIcons();
+    
+    // AOS alternative for older browsers
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('[data-aos]').forEach(el => {
+        observer.observe(el);
+    });
+});
+</script>
+{% endblock %}

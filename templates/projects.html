@@ -1,0 +1,353 @@
+{% extends "base.html" %}
+
+{% block title %}Projetos - Portfólio Digital{% endblock %}
+{% block description %}Explore meus projetos e trabalhos desenvolvidos com diferentes tecnologias{% endblock %}
+
+{% block content %}
+<!-- Projects Hero Section -->
+<section class="projects-hero py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h1 class="display-4 fw-bold mb-3">Meus Projetos</h1>
+                <p class="lead text-light-gray">
+                    Uma coleção dos meus trabalhos mais recentes e projetos desenvolvidos 
+                    ao longo da minha jornada como desenvolvedora
+                </p>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Filters Section -->
+<section class="filters-section py-4 bg-primary-dark sticky-top">
+    <div class="container">
+        <div class="row align-items-center">
+            <div class="col-lg-6">
+                <form method="GET" class="search-form d-flex" id="searchForm">
+                    <input type="text" name="search" class="form-control me-2" 
+                           placeholder="Buscar projetos..." value="{{ search_query }}">
+                    <button type="submit" class="btn btn-primary">
+                        <i class="fas fa-search"></i>
+                    </button>
+                </form>
+            </div>
+            
+            <div class="col-lg-6">
+                <div class="filter-options d-flex justify-content-end align-items-center">
+                    <!-- Category Filter -->
+                    <div class="dropdown me-3">
+                        <button class="btn btn-outline-light dropdown-toggle btn-sm" type="button" 
+                                data-bs-toggle="dropdown">
+                            <i class="fas fa-folder me-1"></i>
+                            {% if current_category %}
+                                {% for cat in categories if cat.id == current_category %}{{ cat.name }}{% endfor %}
+                            {% else %}
+                                Todas as Categorias
+                            {% endif %}
+                        </button>
+                        <ul class="dropdown-menu">
+                            <li>
+                                <a class="dropdown-item {% if not current_category %}active{% endif %}" 
+                                   href="{{ url_for('main.projects') }}">
+                                    Todas as Categorias
+                                </a>
+                            </li>
+                            {% for category in categories %}
+                            <li>
+                                <a class="dropdown-item {% if current_category == category.id %}active{% endif %}" 
+                                   href="{{ url_for('main.projects', category=category.id) }}">
+                                    {{ category.name }}
+                                </a>
+                            </li>
+                            {% endfor %}
+                        </ul>
+                    </div>
+                    
+                    <!-- Tag Filter -->
+                    {% if current_tag %}
+                    <div class="current-tag me-3">
+                        <span class="badge bg-secondary">
+                            # {{ current_tag }}
+                            <a href="{{ url_for('main.projects') }}" class="text-white ms-1">
+                                <i class="fas fa-times"></i>
+                            </a>
+                        </span>
+                    </div>
+                    {% endif %}
+                    
+                    <!-- View Toggle -->
+                    <div class="view-toggle btn-group btn-group-sm" role="group">
+                        <button type="button" class="btn btn-outline-light active" id="gridView">
+                            <i class="fas fa-th"></i>
+                        </button>
+                        <button type="button" class="btn btn-outline-light" id="listView">
+                            <i class="fas fa-list"></i>
+                        </button>
+                    </div>
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+
+<!-- Projects Grid Section -->
+<section class="projects-grid-section py-5">
+    <div class="container">
+        {% if projects %}
+        <div class="projects-grid" id="projectsGrid">
+            {% for project in projects %}
+            <div class="project-card card h-100 border-0 shadow-sm" data-aos="fade-up" data-aos-delay="{{ loop.index0 * 100 }}">
+                {% if project.image_url %}
+                <div class="card-img-wrapper position-relative">
+                    <img src="{{ url_for('main.uploaded_file', filename=project.image_url) }}" 
+                         class="card-img-top" alt="{{ project.title }}">
+                    <div class="card-img-overlay d-flex align-items-center justify-content-center opacity-0">
+                        <div class="project-overlay-actions">
+                            <a href="{{ url_for('main.project_detail', id=project.id) }}" 
+                               class="btn btn-primary btn-lg me-2">
+                                <i class="fas fa-eye"></i>
+                            </a>
+                            {% if project.project_url %}
+                            <a href="{{ project.project_url }}" target="_blank" 
+                               class="btn btn-secondary btn-lg me-2">
+                                <i class="fas fa-external-link-alt"></i>
+                            </a>
+                            {% endif %}
+                            {% if project.github_url %}
+                            <a href="{{ project.github_url }}" target="_blank" 
+                               class="btn btn-dark btn-lg">
+                                <i class="fab fa-github"></i>
+                            </a>
+                            {% endif %}
+                        </div>
+                    </div>
+                </div>
+                {% endif %}
+                
+                <div class="card-body">
+                    <div class="d-flex justify-content-between align-items-start mb-2">
+                        <h5 class="card-title">
+                            <a href="{{ url_for('main.project_detail', id=project.id) }}" 
+                               class="text-decoration-none">{{ project.title }}</a>
+                        </h5>
+                        {% if project.category %}
+                        <span class="badge" style="background-color: {{ project.category.color }}">
+                            {{ project.category.name }}
+                        </span>
+                        {% endif %}
+                    </div>
+                    
+                    <p class="card-text text-light-gray">{{ project.description|truncate(120) }}</p>
+                    
+                    {% if project.tags %}
+                    <div class="project-tags mb-3">
+                        {% for tag in project.tags[:4] %}
+                        <a href="{{ url_for('main.projects', tag=tag.name) }}" 
+                           class="badge bg-dark-light me-1 mb-1 text-decoration-none tag-link">
+                            # {{ tag.name }}
+                        </a>
+                        {% endfor %}
+                        {% if project.tags|length > 4 %}
+                        <span class="badge bg-dark-light">+{{ project.tags|length - 4 }}</span>
+                        {% endif %}
+                    </div>
+                    {% endif %}
+                    
+                    <div class="project-footer d-flex justify-content-between align-items-center">
+                        <div class="project-stats">
+                            <small class="text-muted me-3">
+                                <i class="fas fa-heart text-danger me-1"></i>{{ project.likes_count }}
+                            </small>
+                            <small class="text-muted">
+                                <i class="fas fa-comment text-info me-1"></i>{{ project.comments_count }}
+                            </small>
+                        </div>
+                        <small class="text-muted">{{ project.created_at|format_date }}</small>
+                    </div>
+                </div>
+            </div>
+            {% endfor %}
+        </div>
+
+        <!-- Pagination -->
+        {% if pagination.pages > 1 %}
+        <nav aria-label="Paginação de projetos" class="mt-5">
+            <ul class="pagination justify-content-center">
+                {% if pagination.has_prev %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('main.projects', 
+                        page=pagination.prev_num, 
+                        category=current_category, 
+                        tag=current_tag,
+                        search=search_query) }}">
+                        <i class="fas fa-chevron-left"></i>
+                    </a>
+                </li>
+                {% endif %}
+                
+                {% for page_num in pagination.iter_pages() %}
+                    {% if page_num %}
+                        {% if page_num != pagination.page %}
+                        <li class="page-item">
+                            <a class="page-link" href="{{ url_for('main.projects', 
+                                page=page_num, 
+                                category=current_category, 
+                                tag=current_tag,
+                                search=search_query) }}">
+                                {{ page_num }}
+                            </a>
+                        </li>
+                        {% else %}
+                        <li class="page-item active">
+                            <span class="page-link">{{ page_num }}</span>
+                        </li>
+                        {% endif %}
+                    {% else %}
+                    <li class="page-item disabled">
+                        <span class="page-link">...</span>
+                    </li>
+                    {% endif %}
+                {% endfor %}
+                
+                {% if pagination.has_next %}
+                <li class="page-item">
+                    <a class="page-link" href="{{ url_for('main.projects', 
+                        page=pagination.next_num, 
+                        category=current_category, 
+                        tag=current_tag,
+                        search=search_query) }}">
+                        <i class="fas fa-chevron-right"></i>
+                    </a>
+                </li>
+                {% endif %}
+            </ul>
+        </nav>
+        {% endif %}
+
+        {% else %}
+        <!-- Empty State -->
+        <div class="empty-state text-center py-5">
+            <i class="fas fa-folder-open fa-4x text-muted mb-4"></i>
+            <h3 class="text-muted mb-3">
+                {% if search_query %}
+                Nenhum projeto encontrado
+                {% else %}
+                Nenhum projeto disponível
+                {% endif %}
+            </h3>
+            <p class="text-light-gray mb-4">
+                {% if search_query %}
+                Não encontramos projetos com o termo "{{ search_query }}". Tente uma busca diferente.
+                {% else %}
+                Os projetos aparecerão aqui quando estiverem disponíveis.
+                {% endif %}
+            </p>
+            {% if search_query or current_category or current_tag %}
+            <a href="{{ url_for('main.projects') }}" class="btn btn-primary">
+                <i class="fas fa-refresh me-2"></i>Ver Todos os Projetos
+            </a>
+            {% endif %}
+        </div>
+        {% endif %}
+    </div>
+</section>
+
+<!-- Popular Tags Section -->
+{% if tags %}
+<section class="tags-section py-5 bg-dark-secondary">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8 mx-auto text-center">
+                <h3 class="fw-bold mb-4">Tags Populares</h3>
+                <div class="tags-cloud">
+                    {% for tag in tags %}
+                    <a href="{{ url_for('main.projects', tag=tag.name) }}" 
+                       class="badge bg-primary me-2 mb-2 p-2 text-decoration-none tag-cloud-item">
+                        # {{ tag.name }}
+                    </a>
+                    {% endfor %}
+                </div>
+            </div>
+        </div>
+    </div>
+</section>
+{% endif %}
+{% endblock %}
+
+{% block extra_scripts %}
+<script>
+document.addEventListener('DOMContentLoaded', function() {
+    // View toggle functionality
+    const gridView = document.getElementById('gridView');
+    const listView = document.getElementById('listView');
+    const projectsGrid = document.getElementById('projectsGrid');
+    
+    if (gridView && listView && projectsGrid) {
+        gridView.addEventListener('click', function() {
+            projectsGrid.className = 'projects-grid';
+            this.classList.add('active');
+            listView.classList.remove('active');
+        });
+        
+        listView.addEventListener('click', function() {
+            projectsGrid.className = 'projects-list';
+            this.classList.add('active');
+            gridView.classList.remove('active');
+        });
+    }
+    
+    // Animate project cards on scroll
+    const observerOptions = {
+        threshold: 0.1,
+        rootMargin: '0px 0px -50px 0px'
+    };
+    
+    const observer = new IntersectionObserver((entries) => {
+        entries.forEach(entry => {
+            if (entry.isIntersecting) {
+                entry.target.classList.add('animate-in');
+            }
+        });
+    }, observerOptions);
+    
+    document.querySelectorAll('.project-card').forEach(card => {
+        observer.observe(card);
+    });
+    
+    // Enhanced hover effects for project cards
+    document.querySelectorAll('.project-card').forEach(card => {
+        card.addEventListener('mouseenter', function() {
+            this.style.transform = 'translateY(-10px)';
+            
+            const overlay = this.querySelector('.card-img-overlay');
+            if (overlay) {
+                overlay.classList.remove('opacity-0');
+                overlay.classList.add('opacity-100');
+            }
+        });
+        
+        card.addEventListener('mouseleave', function() {
+            this.style.transform = 'translateY(0)';
+            
+            const overlay = this.querySelector('.card-img-overlay');
+            if (overlay) {
+                overlay.classList.remove('opacity-100');
+                overlay.classList.add('opacity-0');
+            }
+        });
+    });
+    
+    // Tag cloud hover effects
+    document.querySelectorAll('.tag-cloud-item').forEach(tag => {
+        tag.addEventListener('mouseenter', function() {
+            this.style.transform = 'scale(1.1)';
+        });
+        
+        tag.addEventListener('mouseleave', function() {
+            this.style.transform = 'scale(1)';
+        });
+    });
+});
+</script>
+{% endblock %}
