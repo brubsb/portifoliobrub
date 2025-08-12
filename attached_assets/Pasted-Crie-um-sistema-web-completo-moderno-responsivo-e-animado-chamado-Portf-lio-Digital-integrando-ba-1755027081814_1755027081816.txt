@@ -1,0 +1,111 @@
+Crie um sistema web completo, moderno, responsivo e animado chamado Portfólio Digital, integrando backend e frontend, pronto para uso.
+
+Base de código: Utilize como referência e aproveite funcionalidades dos seguintes repositórios:
+
+https://github.com/brubsb/Portifolio_bruna
+
+https://github.com/brubsb/DevPortfolio-1
+
+https://github.com/brubsb/portifolio
+
+Estilo visual:
+
+Inspiração nos sites https://www.ruancostadev.com.br/, https://iuricode.com/ e https://thainanprado.com.br/
+
+Tons de azul escuros e fechados, alguns elementos com transparência.
+
+Layout totalmente responsivo (mobile e desktop), com modo claro e escuro.
+
+Muitas animações suaves usando Framer Motion ou GSAP (hover, fade, slide, parallax, scroll animations).
+
+Tecnologias obrigatórias:
+
+Frontend: React com Next.js (SEO e SSR) + Tailwind CSS
+
+Backend: Node.js com Express
+
+Banco: MongoDB com Mongoose
+
+Autenticação: JWT + bcrypt
+
+Upload: Multer para imagens e vídeos
+
+Integração: API do LinkedIn para compartilhamento
+
+Tempo real: Socket.io para notificações
+
+Proteção de rotas no frontend e backend
+
+Funcionalidades obrigatórias:
+
+Área Administrativa (apenas proprietário):
+
+Login exclusivo (email: brunabarbozasofia@gmail.com / senha: Escola00)
+
+CRUD de projetos e conquistas
+
+Upload de imagens, vídeos e links
+
+Organização por categorias e tags
+
+Publicar ou salvar como rascunho
+
+Painel com estatísticas (curtidas, comentários, mais populares)
+
+Notificações em tempo real para novos comentários
+
+Área Pública (visitantes):
+
+Listagem de projetos e conquistas com paginação
+
+Botão de curtir com contador
+
+Campo de comentários (somente logados)
+
+Compartilhamento no LinkedIn com título, descrição e imagem
+
+Página inicial com destaques (últimos ou mais curtidos)
+
+Autenticação de visitantes:
+
+Cadastro com nome, e-mail, senha e foto de perfil
+
+Login com JWT
+
+Recuperação de senha via e-mail
+
+Página de perfil com foto e informações
+
+Extras:
+
+Página "Sobre Mim" com foto, descrição e redes sociais
+
+Design otimizado para performance e acessibilidade
+
+Componentes reutilizáveis e bem organizados
+
+Estrutura sugerida:
+/backend → models, routes, controllers, middlewares, server.js
+/frontend/src → components, pages, services, styles
+
+Regras:
+
+Código limpo, modular e comentado
+
+Comentar cada função e rota explicando propósito
+
+Garantir responsividade usando breakpoints do Tailwind
+
+Usar ícones e animações leves
+
+SEO otimizado no Next.js
+
+Entrega:
+
+Backend funcional com API REST
+
+Frontend conectado ao backend
+
+Projeto pronto para rodar com npm install e npm run dev
+
+Documentação mínima: instalação, rotas, autenticação
