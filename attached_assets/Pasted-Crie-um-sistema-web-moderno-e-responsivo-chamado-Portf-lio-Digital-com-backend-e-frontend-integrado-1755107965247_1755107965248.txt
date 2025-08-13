@@ -1,0 +1,250 @@
+Crie um sistema web moderno e responsivo chamado Portfólio Digital, com backend e frontend integrados, que atenda aos seguintes requisitos:
+
+Objetivo Geral
+Desenvolver um portfólio digital profissional para um único proprietário (administrador), onde visitantes possam visualizar conquistas, projetos e experiências, interagir com curtidas e comentários, e compartilhar no LinkedIn. O sistema deve ter área administrativa, área pública e autenticação de usuários visitantes.
+
+Tecnologias
+
+Frontend: React (com Vite ou Next.js, escolha o mais indicado para SEO e SSR), usando Tailwind CSS para estilização responsiva.
+
+Backend: Node.js com Express.
+
+Banco de Dados: MongoDB (Mongoose ORM).
+
+Autenticação: JWT para sessões, bcrypt para hash de senha.
+
+Upload de arquivos: Multer para imagens e vídeos.
+
+Integração externa: API do LinkedIn para compartilhamento de publicações.
+
+Notificações em tempo real: Socket.io para avisar o administrador sobre novos comentários.
+
+Funcionalidades
+
+Área Administrativa (Proprietário)
+
+Login exclusivo do administrador.
+
+CRUD completo para projetos e conquistas.
+
+Upload de imagens, vídeos e links de demonstração.
+
+Organização por categorias e tags.
+
+Opção de publicar ou salvar como rascunho.
+
+Painel com estatísticas (total de curtidas, comentários e projetos mais populares).
+
+Área Pública (Visitantes)
+
+Listagem de projetos e conquistas com paginação.
+
+Botão de curtir com contador.
+
+Campo para comentários (somente para usuários logados).
+
+Compartilhamento no LinkedIn com título, descrição e imagem pré-definidos.
+
+Página inicial com destaques (últimos adicionados ou mais curtidos).
+
+Autenticação de Visitantes
+
+Cadastro com nome, e-mail, senha e foto de perfil.
+
+Login com JWT.
+
+Recuperação de senha via e-mail.
+
+Página de perfil do visitante com foto e informações.
+
+Funcionalidades Extras
+
+Notificação em tempo real para o administrador quando houver novo comentário.
+
+Página "Sobre Mim" com foto, descrição e links de redes sociais.
+
+Design moderno e responsivo, com modo claro e escuro.
+
+Layout otimizado para mobile e desktop.
+
+Estrutura de Pastas Sugerida
+
+bash
+Copiar
+Editar
+/backend
+  /models
+  /routes
+  /controllers
+  /middlewares
+  server.js
+
+/frontend
+  /src
+    /components
+    /pages
+    /services
+    /styles
+Regras
+
+Código limpo, modular e documentado.
+
+Comentar cada função e rota.
+
+Implementar proteção de rotas no frontend e backend.
+
+Garantir que o layout seja responsivo usando breakpoints do Tailwind.
+
+Usar ícones e animações leves para visual moderno.
+
+Entregáveis
+
+Backend funcional com API REST.
+
+Frontend conectado ao backend.
+
+Documentação mínima com:
+
+Passos para instalar e rodar.
+
+Estrutura das rotas.
+
+Explicação de autenticação.
+
+Gere o código completo do projeto com essas funcionalidades, incluindo backend e frontend integrados, pronto para rodar com npm install e npm run dev.
+Adicione comentários no código explicando cada parte importante.
+
+
+
+
+acesse esse repositorio do github: https://github.com/brubsb/Portifolio_bruna
+https://github.com/brubsb/DevPortfolio-1
+https://github.com/brubsb/portifolio
+
+eu quero que voce use ele e o aperfeicoe para um portifolio de um dev, bem interativo e moderno, pode abusar de ferramentas do javascript para deixalo bem legal.
+
+tenha como inspiracao:
+https://www.ruancostadev.com.br/
+https://iuricode.com/
+https://thainanprado.com.br/
+
+quero muitas animacoes, algo bem completo e sem bugs, deixe responsivo
+nao esqueca de deixar o projeto com tudo que foi pedido, quero em uns tons de azul mais escuros e fechados, algumas coisas com transparencia
+eu quero que o login do admin seja com esse email: brunabarbozasofia@gmail.com
+senha:Escola00
+
+
+
+
+
+Crie um sistema web completo, moderno, responsivo e animado chamado Portfólio Digital, integrando backend e frontend, pronto para uso.
+
+Base de código: Utilize como referência e aproveite funcionalidades dos seguintes repositórios:
+
+https://github.com/brubsb/Portifolio_bruna
+
+https://github.com/brubsb/DevPortfolio-1
+
+https://github.com/brubsb/portifolio
+
+Estilo visual:
+
+Inspiração nos sites https://www.ruancostadev.com.br/, https://iuricode.com/ e https://thainanprado.com.br/
+
+Tons de azul escuros e fechados, alguns elementos com transparência.
+
+Layout totalmente responsivo (mobile e desktop), com modo claro e escuro.
+
+Muitas animações suaves usando Framer Motion ou GSAP (hover, fade, slide, parallax, scroll animations).
+
+Tecnologias obrigatórias:
+
+Frontend: React com Next.js (SEO e SSR) + Tailwind CSS
+
+Backend: Node.js com Express
+
+Banco: MongoDB com Mongoose
+
+Autenticação: JWT + bcrypt
+
+Upload: Multer para imagens e vídeos
+
+Integração: API do LinkedIn para compartilhamento
+
+Tempo real: Socket.io para notificações
+
+Proteção de rotas no frontend e backend
+
+Funcionalidades obrigatórias:
+
+Área Administrativa (apenas proprietário):
+
+Login exclusivo (email: brunabarbozasofia@gmail.com / senha: Escola00)
+
+CRUD de projetos e conquistas
+
+Upload de imagens, vídeos e links
+
+Organização por categorias e tags
+
+Publicar ou salvar como rascunho
+
+Painel com estatísticas (curtidas, comentários, mais populares)
+
+Notificações em tempo real para novos comentários
+
+Área Pública (visitantes):
+
+Listagem de projetos e conquistas com paginação
+
+Botão de curtir com contador
+
+Campo de comentários (somente logados)
+
+Compartilhamento no LinkedIn com título, descrição e imagem
+
+Página inicial com destaques (últimos ou mais curtidos)
+
+Autenticação de visitantes:
+
+Cadastro com nome, e-mail, senha e foto de perfil
+
+Login com JWT
+
+Recuperação de senha via e-mail
+
+Página de perfil com foto e informações
+
+Extras:
+
+Página "Sobre Mim" com foto, descrição e redes sociais
+
+Design otimizado para performance e acessibilidade
+
+Componentes reutilizáveis e bem organizados
+
+Estrutura sugerida:
+/backend → models, routes, controllers, middlewares, server.js
+/frontend/src → components, pages, services, styles
+
+Regras:
+
+Código limpo, modular e comentado
+
+Comentar cada função e rota explicando propósito
+
+Garantir responsividade usando breakpoints do Tailwind
+
+Usar ícones e animações leves
+
+SEO otimizado no Next.js
+
+Entrega:
+
+Backend funcional com API REST
+
+Frontend conectado ao backend
+
+Projeto pronto para rodar com npm install e npm run dev
+
+Documentação mínima: instalação, rotas, autenticação
