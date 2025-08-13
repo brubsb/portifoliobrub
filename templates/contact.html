@@ -81,7 +81,6 @@
                                 <label for="message">
                                     <i class="fas fa-comment me-2"></i>Sua Mensagem
                                 </label>
-                                <div class="form-text">Mínimo de 10 caracteres, máximo de 2000.</div>
                                 {% if form.message.errors %}
                                 <div class="invalid-feedback d-block">
                                     {{ form.message.errors[0] }}
@@ -102,30 +101,7 @@
             <!-- Contact Info Sidebar -->
             <div class="col-lg-4">
                 <div class="contact-info">
-                    <!-- Contact Details -->
-                    <div class="contact-card card border-0 shadow-sm mb-4">
-                        <div class="card-body">
-                            <h5 class="fw-bold mb-3">
-                                <i class="fas fa-address-card me-2 text-primary"></i>Informações de Contato
-                            </h5>
-                            
-                            <div class="contact-item mb-3">
-                                <div class="d-flex align-items-center">
-                                    <div class="contact-icon me-3">
-                                        <i class="fas fa-envelope text-primary"></i>
-                                    </div>
-                                    <div>
-                                        <h6 class="mb-0">Email</h6>
-                                        <a href="mailto:brunabarbozasofia@gmail.com" class="text-decoration-none">
-                                            brunabarbozasofia@gmail.com
-                                        </a>
-                                    </div>
-                                </div>
-                            </div>
-                            
 
-                        </div>
-                    </div>
 
                     <!-- Social Links -->
                     <div class="social-card card border-0 shadow-sm mb-4">
@@ -277,31 +253,16 @@
 {% block extra_scripts %}
 <script>
 document.addEventListener('DOMContentLoaded', function() {
-    // Form character counter for message field
+    // Message field focus enhancement
     const messageField = document.getElementById('message');
     if (messageField) {
-        const maxLength = 2000;
-        const minLength = 10;
+        messageField.addEventListener('focus', function() {
+            this.closest('.form-floating').classList.add('focused');
+        });
         
-        // Create counter display
-        const counterDiv = document.createElement('div');
-        counterDiv.className = 'character-counter small text-muted text-end mt-1';
-        messageField.parentNode.insertBefore(counterDiv, messageField.nextSibling);
-        
-        function updateCounter() {
-            const currentLength = messageField.value.length;
-            const remaining = maxLength - currentLength;
-            
-            counterDiv.innerHTML = `
-                <span class="${currentLength < minLength ? 'text-warning' : remaining < 100 ? 'text-warning' : 'text-muted'}">
-                    ${currentLength}/${maxLength} caracteres
-                    ${currentLength < minLength ? `(mínimo: ${minLength})` : ''}
-                </span>
-            `;
-        }
-        
-        messageField.addEventListener('input', updateCounter);
-        updateCounter();
+        messageField.addEventListener('blur', function() {
+            this.closest('.form-floating').classList.remove('focused');
+        });
     }
     
     // Form submission with loading state
