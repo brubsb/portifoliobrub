@@ -48,10 +48,10 @@ def index():
     # Get latest achievements
     latest_achievements = Achievement.query.filter_by(is_published=True).order_by(desc(Achievement.created_at)).limit(3).all()
     
-    # Get statistics with minimum values for better display
-    total_projects = max(Project.query.filter_by(is_published=True).count(), 5)
-    total_achievements = max(Achievement.query.filter_by(is_published=True).count(), 3)
-    total_likes = max(Like.query.count(), 12)
+    # Get real statistics from database
+    total_projects = Project.query.filter_by(is_published=True).count()
+    total_achievements = Achievement.query.filter_by(is_published=True).count()
+    total_likes = Like.query.count()
     
     return render_template('index.html', 
                          featured_projects=featured_projects,
