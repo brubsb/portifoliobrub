@@ -1340,3 +1340,76 @@ footer {
 [data-theme="light"] .card {
     box-shadow: 0 4px 6px -1px rgba(0, 0, 0, 0.1), 0 2px 4px -1px rgba(0, 0, 0, 0.06);
 }
+
+/* ===== Contact Page Styles ===== */
+.contact-form-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--shadow-lg) !important;
+}
+
+.contact-card, .social-card, .quick-links-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--shadow-md) !important;
+}
+
+.contact-form-card:hover, .contact-card:hover, .social-card:hover, .quick-links-card:hover {
+    box-shadow: var(--shadow-xl) !important;
+    transform: translateY(-2px);
+}
+
+/* ===== Authentication Styles ===== */
+.auth-section {
+    min-height: 100vh;
+    display: flex;
+    align-items: center;
+    background: linear-gradient(135deg, var(--bg-primary), var(--bg-secondary));
+}
+
+.auth-card {
+    background: var(--bg-card) !important;
+    border: 1px solid var(--glass-border) !important;
+    box-shadow: var(--shadow-xl) !important;
+    border-radius: var(--radius-xl) !important;
+}
+
+.auth-card:hover {
+    box-shadow: 0 25px 50px -12px rgba(0, 0, 0, 0.25) !important;
+}
+
+.auth-icon i {
+    color: var(--primary-color);
+    text-shadow: 0 0 20px rgba(30, 64, 175, 0.3);
+}
+
+/* Password strength styles */
+.strength-meter {
+    height: 4px;
+    background: var(--bg-tertiary);
+    border-radius: 2px;
+    overflow: hidden;
+    margin-top: 0.5rem;
+}
+
+.strength-bar {
+    height: 100%;
+    transition: all var(--transition);
+    border-radius: 2px;
+}
+
+.strength-bar.weak {
+    background: var(--accent-danger);
+}
+
+.strength-bar.medium {
+    background: var(--accent-warning);
+}
+
+.strength-bar.strong {
+    background: var(--accent-success);
+}
+
+.strength-bar.very-strong {
+    background: var(--primary-color);
+}
