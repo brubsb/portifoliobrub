@@ -775,6 +775,10 @@ body {
     transition: all var(--transition);
     position: relative;
     overflow: hidden;
+    display: inline-flex;
+    align-items: center;
+    justify-content: center;
+    text-align: center;
 }
 
 .btn::before {
