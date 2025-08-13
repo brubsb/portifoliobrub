@@ -1,5 +1,8 @@
 import os
 import uuid
+import smtplib
+from email.mime.text import MIMEText
+from email.mime.multipart import MIMEMultipart
 from PIL import Image
 from flask import current_app
 from werkzeug.utils import secure_filename
@@ -107,3 +110,63 @@ def generate_linkedin_share_url(title, description, url):
     base_url = "https://www.linkedin.com/sharing/share-offsite/"
     params = f"?url={url}&title={title}&summary={description}"
     return base_url + params
+
+def send_contact_email(name, email, subject, message):
+    """
+    Send contact form email notification
+    
+    Requires environment variables:
+    - SMTP_SERVER: SMTP server address
+    - SMTP_PORT: SMTP server port
+    - SMTP_USERNAME: SMTP username
+    - SMTP_PASSWORD: SMTP password
+    - ADMIN_EMAIL: Email to receive contact messages
+    """
+    # Get email configuration from environment
+    smtp_server = os.environ.get('SMTP_SERVER')
+    smtp_port = int(os.environ.get('SMTP_PORT', 587))
+    smtp_username = os.environ.get('SMTP_USERNAME')
+    smtp_password = os.environ.get('SMTP_PASSWORD')
+    admin_email = os.environ.get('ADMIN_EMAIL')
+    
+    if not all([smtp_server, smtp_username, smtp_password, admin_email]):
+        raise ValueError("Email configuration incomplete. Please set SMTP environment variables.")
+    
+    # Create message
+    msg = MIMEMultipart()
+    msg['From'] = smtp_username
+    msg['To'] = admin_email
+    msg['Subject'] = f"[Portfólio] {subject}"
+    
+    # Email body
+    body = f"""
+Nova mensagem de contato recebida:
+
+Nome: {name}
+Email: {email}
+Assunto: {subject}
+
+Mensagem:
+{message}
+
+---
+Esta mensagem foi enviada através do formulário de contato do seu portfólio.
+Para responder, utilize o email: {email}
+"""
+    
+    msg.attach(MIMEText(body, 'plain', 'utf-8'))
+    
+    # Send email
+    try:
+        server = smtplib.SMTP(smtp_server, smtp_port)
+        server.starttls()
+        server.login(smtp_username, smtp_password)
+        text = msg.as_string()
+        server.sendmail(smtp_username, admin_email, text)
+        server.quit()
+        
+        current_app.logger.info(f"Contact email sent successfully from {email}")
+        
+    except Exception as e:
+        current_app.logger.error(f"Failed to send contact email: {e}")
+        raise

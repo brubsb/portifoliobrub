@@ -157,6 +157,7 @@ def contact():
     form = ContactForm()
     
     if form.validate_on_submit():
+        # Save message to database
         message = ContactMessage(
             name=form.name.data,
             email=form.email.data,
@@ -167,7 +168,21 @@ def contact():
         db.session.add(message)
         db.session.commit()
         
-        flash('Mensagem enviada com sucesso! Retornaremos em breve.', 'success')
+        # Send email notification (requires email configuration)
+        try:
+            from utils import send_contact_email
+            send_contact_email(
+                name=form.name.data,
+                email=form.email.data,
+                subject=form.subject.data,
+                message=form.message.data
+            )
+            flash('Mensagem enviada com sucesso! Retornaremos em breve.', 'success')
+        except Exception as e:
+            # Even if email fails, message is saved in database
+            current_app.logger.warning(f'Email não pôde ser enviado: {e}')
+            flash('Mensagem salva! Para receber por email, configure as credenciais SMTP.', 'info')
+        
         return redirect(url_for('main.contact'))
     
     return render_template('contact.html', form=form)
